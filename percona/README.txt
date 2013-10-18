@@ -11,4 +11,8 @@ A Barclamp is a module component that implements functionality for Crowbar.  Cor
 About this barclamp
 -------------------
 
-Information for this barclamp is maintained on the Crowbar Framework Wiki: https://github.com/dellcloudedge/crowbar/wiki
+Information for this barclamp is maintained on the Crowbar Framework Wiki: https://github.com/dellcloudedge/crowbar/wiki.
+
+This is the Database barclamp to deploy a Percona Mysql XtraDB Cluster. This barclamp is written to be used in conjunction with the Load Balancer barclamp and is intended to be used with 3 controllers.
+
+This barclamp needs cleaning up with the attributes being removed - Will update when done.
