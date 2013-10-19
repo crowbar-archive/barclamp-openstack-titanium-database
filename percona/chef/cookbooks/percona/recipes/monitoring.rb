@@ -40,9 +40,3 @@ execute "percona-extract-plugins" do
   action :run
 end
 
-#remote_file "#{Chef::Config[:file_cache_path]}/#{percona_plugins_tarball}" do
-#  source percona_plugins_url
-#  mode 0644
-#  checksum node['percona']['plugins_sha']
-#  notifies :run, "execute[percona-extract-plugins]", :immediately
-#end

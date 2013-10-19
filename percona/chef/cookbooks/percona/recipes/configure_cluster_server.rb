@@ -5,14 +5,6 @@ mysqld  = (conf && conf["mysqld"]) || {}
 firstnode = false
 headnode = ""
 
-file = File.open('/var/log/jez.log', File::WRONLY | File::CREAT)
-log = Logger.new(file)
-log.level = Logger::WARN
-log.debug("Created logger")
-log.info("Program started")
-log.warn("Nothing to do!")
-log.error("Platform family: #{["platform_family"]}")
-
 # get ip addresses - Barclamp proposal needs to be coded and not hard coded
 service_name = node[:percona][:config][:environment]
 proposal_name = service_name.split('-')
@@ -29,9 +21,6 @@ gcommaddr = "gcomm://" +  cont1_admin_ip + "," + cont2_admin_ip + "," + cont3_ad
 root_password = node["percona"]["server_root_password"]
 debian_password = node["percona"]["server_debian_password"]
 
-# construct an encrypted passwords helper -- giving it the node and bag name
-#passwords = EncryptedPasswords.new(node, percona["encrypted_data_bag"])
-log.warn("Nothing to do!")
 
 template "/root/.my.cnf" do
   variables(:root_password => root_password)
@@ -40,7 +29,6 @@ template "/root/.my.cnf" do
   mode 0600
   source "my.cnf.root.erb"
 end
-log.warn("Nothing to do!")
 
 if server["bind_to"]
   ipaddr = Percona::ConfigHelper.bind_to(node, server["bind_to"])
@@ -70,7 +58,6 @@ service "mysql" do
   #cluster_nodes = cluster_address.split(',')
   headnode = cont1_admin_ip 
   localipaddress= Chef::Recipe::Barclamp::Inventory.get_network_by_type(node, "admin").address 
-  # localipaddress=  node["network"]["interfaces"]["eth0"]["addresses"].select {|address, data| data["family"] == "inet" }.first.first
   if cont1_admin_ip == localipaddress
 	firstnode = true
 	start_command "/usr/bin/service mysql bootstrap-pxc" #if platform?("ubuntu")

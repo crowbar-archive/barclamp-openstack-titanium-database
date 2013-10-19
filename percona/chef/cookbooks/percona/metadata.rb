@@ -21,7 +21,6 @@ recipe "percona::access_grants", "Used internally to grant permissions for recip
 #depends "yum"
 depends "openssl"
 depends "mysql", "~> 3.0"
-depends "oscommon"
 
 %w[debian ubuntu centos amazon scientific fedora redhat].each do |os|
   supports os
