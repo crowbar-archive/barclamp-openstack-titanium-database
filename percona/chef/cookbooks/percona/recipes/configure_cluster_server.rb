@@ -84,6 +84,8 @@ directory datadir do
   action :create
 end
 
+sleep 15
+
 # install db to the data directory
 execute "setup mysql datadir" do
   command "mysql_install_db --user=#{user} --datadir=#{datadir}"
