@@ -92,6 +92,12 @@ execute "setup mysql datadir" do
   not_if "test -f #{datadir}/mysql/user.frm"
 end
 
+# check if an server config file is in place and if so, remove it (might replace this with a ruby block to rename
+file percona["main_config_file"] do
+  action :delete
+  ignore_failure true
+end
+
 # setup the main server config file
 template percona["main_config_file"] do
   source "my.cnf.#{conf ? "custom" : server["role"]}.erb"
