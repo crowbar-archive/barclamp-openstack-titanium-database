@@ -22,13 +22,13 @@ root_password = node["percona"]["server_root_password"]
 debian_password = node["percona"]["server_debian_password"]
 
 
-template "/root/.my.cnf" do
-  variables(:root_password => root_password)
-  owner "root"
-  group "root"
-  mode 0600
-  source "my.cnf.root.erb"
-end
+#template "/root/.my.cnf" do
+#  variables(:root_password => root_password)
+#  owner "root"
+#  group "root"
+#  mode 0600
+#  source "my.cnf.root.erb"
+#end
 
 if server["bind_to"]
   ipaddr = Percona::ConfigHelper.bind_to(node, server["bind_to"])
@@ -127,7 +127,7 @@ end
 # now let's set the root password only if this is the initial install
 execute "Update MySQL root password" do
   command "mysqladmin --user=root --password='' password '"+root_password+"'"
-  not_if "test -f /etc/mysql/grants.sql"
+  not_if "test -f /tmp/percona_grants.sql"
 end
 
 # setup the debian system user config

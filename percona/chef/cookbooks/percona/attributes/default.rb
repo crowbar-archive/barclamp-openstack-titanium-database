@@ -19,7 +19,8 @@
 # limitations under the License.
 #
 
-::Chef::Node.send(:include, Opscode::OpenSSL::Password)
+#::Chef::Node.send(:include, Opscode::OpenSSL::Password)
+::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 
 # Always restart percona on configuration changes
 default["percona"]["auto_restart"] = true
