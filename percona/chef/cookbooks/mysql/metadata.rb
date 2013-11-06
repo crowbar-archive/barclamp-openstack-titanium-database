@@ -14,7 +14,7 @@ recipe            "mysql::server_ec2", "Performs EC2-specific mountpoint manipul
   supports os
 end
 
-depends "openssl"
+#depends "openssl"
 #depends "build-essential", "> 1.1.0"
 suggests "homebrew"
 suggests "windows"
