@@ -93,10 +93,10 @@ execute "setup mysql datadir" do
 end
 
 # check if an server config file is in place and if so, remove it (might replace this with a ruby block to rename
-file percona["main_config_file"] do
-  action :delete
-  ignore_failure true
-end
+#file percona["main_config_file"] do
+#  action :delete
+#  ignore_failure true
+#end
 
 # setup the main server config file
 template percona["main_config_file"] do
