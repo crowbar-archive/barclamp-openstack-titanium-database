@@ -59,11 +59,11 @@ class PerconaService < ServiceObject
     sql_engine = role.default_attributes["percona"]["sql_engine"]
     @logger.debug(sql_engine)
     role.default_attributes["percona"][sql_engine] = {} if role.default_attributes["percona"][sql_engine].nil?
-    role.default_attributes["percona"]["db_maker_password"] = (old_role && old_role.default_attributes["percona"]["db_maker_password"]) || random_password
+    role.default_attributes["percona"]["percona"]["db_maker_password"] = (old_role && old_role.default_attributes["percona"]["db_maker_password"]) || random_password
 
-    role.default_attributes["percona"]["percona"]["server_debian_password"] = (old_role && old_role.default_attributes["percona"]["percona"]["server_debian_password"]) || random_password
-    role.default_attributes["percona"]["percona"]["server_root_password"] = (old_role && old_role.default_attributes["percona"]["percona"]["server_root_password"]) || random_password
-    role.default_attributes["percona"]["percona"]["server_repl_password"] = (old_role && old_role.default_attributes["percona"]["percona"]["server_repl_password"]) || random_password
+    role.default_attributes["percona"]["percona"]["server_debian_password"] = (old_role && old_role.default_attributes["percona"]["server_debian_password"]) || random_password
+    role.default_attributes["percona"]["percona"]["server_root_password"] = (old_role && old_role.default_attributes["percona"]["server_root_password"]) || random_password
+    role.default_attributes["percona"]["percona"]["server_repl_password"] = (old_role && old_role.default_attributes["percona"]["server_repl_password"]) || random_password
     @logger.debug("setting mysql specific attributes")
     
 
