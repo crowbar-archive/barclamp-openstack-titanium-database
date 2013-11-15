@@ -31,8 +31,7 @@ debian_password = node["percona"]["server_debian_password"]
 #end
 
 if server["bind_to"]
-  #ipaddr = Percona::ConfigHelper.bind_to(node, server["bind_to"])
-  ipaddr = Chef::Recipe::Barclamp::Inventory.get_network_by_type(node, "admin").address
+  ipaddr = Percona::ConfigHelper.bind_to(node, server["bind_to"])
   if ipaddr && server["bind_address"] != ipaddr
     node.override["percona"]["server"]["bind_address"] = ipaddr
     node.save
