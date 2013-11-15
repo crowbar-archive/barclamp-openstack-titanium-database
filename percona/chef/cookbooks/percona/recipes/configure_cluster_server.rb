@@ -41,6 +41,16 @@ if server["bind_to"]
     level :warn
     only_if { ipaddr.nil? }
   end
+else
+  # unless otherwise specified, default to admin VIP address
+  admin_vip = node[:haproxy][:admin_ip]
+  node["percona"]["server"]["bind_address"] = admin_vip
+  node.save
+
+  log "Can't find ip address for #{server["bind_to"]}" do
+    level :warn
+    only_if { ipaddr.nil? }
+  end
 end
 
 datadir = mysqld["datadir"] || server["datadir"]

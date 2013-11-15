@@ -66,7 +66,6 @@ default["percona"]["server"]["bind_address"]                    = "0.0.0.0"
   next if defined?(node["percona"]["server"][attribute])
   default["percona"]["server"][attribute]                       = secure_password
 end
-default['percona']['server']['bind_to'] = "private_ip"
 
 # Fine Tuning
 default["percona"]["server"]["key_buffer"]                      = "16M"
