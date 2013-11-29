@@ -1,0 +1,12 @@
+percona-xtradb-cluster-server-5.5        mysql-server/root_password_again        select <%= node["percona"]["server_root_password"] %>
+percona-xtradb-cluster-server-5.5        mysql-server/root_password      select <%= node["percona"]["server_root_password"] %>
+percona-xtradb-cluster-server-5.5        percona-xtradb-cluster-server-5.5/root_password_again        select <%= node["percona"]["server_root_password"] %>
+percona-xtradb-cluster-server-5.5        percona-xtradb-cluster-server-5.5/root_password      select <%= node["percona"]["server_root_password"] %>
+percona-xtradb-cluster-server-5.5        percona-xtradb-cluster-server-5.5/really_downgrade       boolean false
+percona-xtradb-cluster-server-5.5        percona-xtradb-cluster-server-5.5/need_sarge_compat      boolean false
+percona-xtradb-cluster-server-5.5        percona-xtradb-cluster-server-5.5/start_on_boot  boolean true
+percona-xtradb-cluster-server-5.5        mysql-server/error_setting_password     boolean false
+percona-xtradb-cluster-server-5.5        percona-xtradb-cluster-server-5.5/nis_warning    note
+percona-xtradb-cluster-server-5.5        percona-xtradb-cluster-server-5.5/postrm_remove_databases        boolean false
+percona-xtradb-cluster-server-5.5        mysql-server/password_mismatch  boolean false
+percona-xtradb-cluster-server-5.5        percona-xtradb-cluster-server-5.5/need_sarge_compat_done boolean true
