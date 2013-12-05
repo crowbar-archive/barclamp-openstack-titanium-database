@@ -103,10 +103,10 @@ execute "setup mysql datadir" do
 end
 
 # check if an server config file is in place and if so, remove it (might replace this with a ruby block to rename
-#file percona["main_config_file"] do
-#  action :delete
-#  ignore_failure true
-#end
+file percona["main_config_file"] do
+  action :delete
+  ignore_failure true
+end
 
 # setup the main server config file
 template percona["main_config_file"] do
@@ -137,6 +137,7 @@ end
 # now let's set the root password only if this is the initial install
 execute "Update MySQL root password" do
   command "mysqladmin --user=root --password='' password '"+root_password+"'"
+  only_if { node["platform_family"] != "debian" }  #on debian this should have already been taken care of with debconf-set-selections
   not_if "test -f /tmp/percona_grants.sql"
 end
 
