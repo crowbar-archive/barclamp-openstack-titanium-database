@@ -103,10 +103,20 @@ execute "setup mysql datadir" do
 end
 
 # check if an server config file is in place and if so, remove it (might replace this with a ruby block to rename
-file percona["main_config_file"] do
-  action :delete
-  ignore_failure true
+#file percona["main_config_file"] do
+#  action :delete
+#  ignore_failure true
+#end
+ruby_block "removemyconf" do
+  block do
+    if File.ctime(percona["main_config_file"]).to_date < Date.today
+		Chef::Log.info("****COE-LOG: Deleting pre-existing my.cnf config file")
+		File.delete(percona["main_config_file"])
+	end
+  end
+  #action :create
 end
+
 
 # setup the main server config file
 template percona["main_config_file"] do
