@@ -37,20 +37,20 @@ ruby_block "removemyconf" do
   end
   action :create
 end
+# preseeding done in cluster.rb
+#execute "preseed percona-server" do
+    #command "debconf-set-selections /var/cache/local/preseeding/percona-server.seed"
+    #action :nothing
+#end
 
-execute "preseed percona-server" do
-    command "debconf-set-selections /var/cache/local/preseeding/percona-server.seed"
-    action :nothing
-end
-
-template "/var/cache/local/preseeding/percona-server.seed" do
-	source "percona-server.seed.erb"
-	owner "root"
-	group "root"
-	#group node['mysql']['root_group']
-	mode "0600"
-	notifies :run, "execute[preseed percona-server]", :immediately
-end
+#template "/var/cache/local/preseeding/percona-server.seed" do
+	#source "percona-server.seed.erb"
+	#owner "root"
+	#group "root"
+	##group node['mysql']['root_group']
+	#mode "0600"
+	#notifies :run, "execute[preseed percona-server]", :immediately
+#end
 
 #template "/root/.my.cnf" do
 #  variables(:root_password => root_password)
