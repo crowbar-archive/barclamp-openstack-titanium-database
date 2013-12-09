@@ -21,6 +21,22 @@ gcommaddr = "gcomm://" +  cont1_admin_ip + "," + cont2_admin_ip + "," + cont3_ad
 root_password = node["percona"]["server_root_password"]
 debian_password = node["percona"]["server_debian_password"]
 
+# check if an server config file is in place and if so, remove it (might replace this with a ruby block to rename
+#file percona["main_config_file"] do
+#  action :delete
+#  ignore_failure true
+#end
+ruby_block "removemyconf" do
+  block do
+	require 'date'
+    #if File.ctime(percona["main_config_file"]).to_date < Date.today
+    if Date.parse(File.ctime("/etc/mysql/my.cnf").to_s) < Date.today
+		Chef::Log.info("****COE-LOG: Deleting pre-existing my.cnf config file")
+		File.delete(percona["main_config_file"])
+	end
+  end
+  action :create
+end
 
 #template "/root/.my.cnf" do
 #  variables(:root_password => root_password)
@@ -84,6 +100,7 @@ directory "/etc/mysql" do
   owner "root"
   group "root"
   mode 0755
+  
 end
 
 # setup the data directory
@@ -101,24 +118,6 @@ execute "setup mysql datadir" do
   command "mysql_install_db --user=#{user} --datadir=#{datadir}"
   not_if "test -f #{datadir}/mysql/user.frm"
 end
-
-# check if an server config file is in place and if so, remove it (might replace this with a ruby block to rename
-#file percona["main_config_file"] do
-#  action :delete
-#  ignore_failure true
-#end
-ruby_block "removemyconf" do
-  block do
-	require 'date'
-    #if File.ctime(percona["main_config_file"]).to_date < Date.today
-    if Date.parse(File.ctime("/etc/mysql/my.cnf").to_s) < Date.today
-		Chef::Log.info("****COE-LOG: Deleting pre-existing my.cnf config file")
-		File.delete(percona["main_config_file"])
-	end
-  end
-  action :create
-end
-
 
 # setup the main server config file
 template percona["main_config_file"] do
