@@ -162,8 +162,9 @@ end
 # now let's set the root password only if this is the initial install
 execute "Update MySQL root password" do
   command "mysqladmin --user=root --password='' password '"+root_password+"'"
-  only_if { node["platform_family"] != "debian" }  #on debian this should have already been taken care of with debconf-set-selections
+  #only_if { node["platform_family"] != "debian" }  #on debian this should have already been taken care of with debconf-set-selections
   not_if "test -f /tmp/percona_grants.sql"
+  ignore_failure true
 end
 
 # setup the debian system user config
