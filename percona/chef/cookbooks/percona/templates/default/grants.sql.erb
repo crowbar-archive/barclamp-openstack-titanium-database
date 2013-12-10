@@ -9,7 +9,7 @@
 <% end -%>
 
 
-<% if node["percona"]["backup"]["configure"] %>
+<% if node["percona"]["backup"]["configure"] -%>
 # Grant permissions for the XtraBackup user
 # Ensure the user exists, then revoke all grants, then re-grant specific permissions
 GRANT RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.* TO '<%= node["percona"]["backup"]["username"] %>'@'localhost' IDENTIFIED BY '<%= @backup_password %>';
