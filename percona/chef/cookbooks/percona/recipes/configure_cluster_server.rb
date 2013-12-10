@@ -177,7 +177,7 @@ if firstnode
 	sstauthPass = sstAuth[1]
 	# Create the state transfer user
 	unless File.exists?("/etc/mysql/userhold.txt") 
-          execute "add-mysql-user-sstuser" do
+	   execute "add-mysql-user-sstuser" do
 	   	command "/usr/bin/mysql -u root -p"+root_password+" -D mysql -r -B -N -e \"CREATE USER '#{sstAuthName}'@'localhost' IDENTIFIED BY '#{sstauthPass}'\""
 	   	action :run
 	   	#Chef::Log.info('****COE-LOG add-mysql-user-sstuser')
