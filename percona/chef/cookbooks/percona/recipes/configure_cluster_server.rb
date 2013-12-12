@@ -120,6 +120,11 @@ end
 #  ignore_failure true
 #end
 
+file percona["main_config_file"] do # KR - I dont like this. 
+  action :delete 
+  ignore_failure true
+end
+
 # setup the main server config file
 template percona["main_config_file"] do
   source "my.cnf.#{conf ? "custom" : server["role"]}.erb"
@@ -146,6 +151,7 @@ template percona["main_config_file"] do
   end
 end
 
+
 # now let's set the root password only if this is the initial install
 execute "Update MySQL root password" do
   command "mysqladmin --user=root --password='' password '"+root_password+"'"
@@ -154,6 +160,7 @@ execute "Update MySQL root password" do
   #not_if node["platform_family"] == "debian"
   #not_if platform_family?("debian")
 end
+
 
 # setup the debian system user config
 template "/etc/mysql/debian.cnf" do
