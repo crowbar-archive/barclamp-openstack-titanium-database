@@ -120,10 +120,10 @@ end
 #  ignore_failure true
 #end
 
-file percona["main_config_file"] do # KR - I dont like this. 
-  action :delete 
-  ignore_failure true
-end
+#file percona["main_config_file"] do # KR - I dont like this. 
+#  action :delete 
+#  ignore_failure true
+#end
 
 # setup the main server config file
 template percona["main_config_file"] do
