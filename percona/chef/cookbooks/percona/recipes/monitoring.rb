@@ -36,7 +36,8 @@ end
 execute "percona-extract-plugins" do
   command "tar zxf /var/cache/chef/cookbooks/percona/percona-monitoring-plugins-1.0.5.tar.gz --strip-components 2 -C #{node['percona']['plugins_path']}"
   creates "#{node['percona']['plugins_path']}/COPYING"
-  only_if do File.exist?("#{Chef::Config[:file_cache_path]}/#{percona_plugins_tarball}") end
+  # only_if do File.exist?("#{Chef::Config[:file_cache_path]}/#{percona_plugins_tarball}") end
+  only_if do File.exist?("/var/cache/chef/cookbooks/percona/percona-monitoring-plugins-1.0.5.tar.gz") end
   action :run
 end
 
