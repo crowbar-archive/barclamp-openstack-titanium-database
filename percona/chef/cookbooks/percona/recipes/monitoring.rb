@@ -26,11 +26,12 @@ directory "percona_plugins_dir" do
   mode 0755
 end
 
-file "/var/cache/chef/cookbooks/percona/percona-monitoring-plugins-1.0.5.tar.gz" do
+cookbook_file "/var/cache/chef/cookbooks/percona/percona-monitoring-plugins-1.0.5.tar.gz" do
+  source "percona-monitoring-plugins-1.0.5.tar.gz"
   owner "root"
   group "root"
   mode "0755"
-  action :create
+  # action :create
 end
 
 execute "percona-extract-plugins" do
