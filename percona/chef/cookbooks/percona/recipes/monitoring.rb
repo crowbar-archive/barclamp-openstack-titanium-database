@@ -19,6 +19,18 @@
 percona_plugins_tarball = "percona-monitoring-plugins-1.0.5.tar.gz"
 #percona_plugins_url = "#{node['percona']['plugins_url']}/#{percona_plugins_tarball}"
 
+include_recipe "nagios::common" if node["roles"].include?("nagios-client")
+
+template "/etc/nagios/nrpe.d/percona_nrpe.cfg" do
+  source "percona_nrpe.cfg.erb"
+  mode "0644"
+  group node[:nagios][:group]
+  owner node[:nagios][:user]
+  variables({
+  })    
+   notifies :restart, "service[nagios-nrpe-server]"
+end if node["roles"].include?("nagios-client") 
+
 directory "percona_plugins_dir" do
   path node['percona']['plugins_path']
   owner "root"
