@@ -1,6 +1,7 @@
 
 <% unless node[:percona].nil? -%>
-command[check_percona_cluster]=/opt/pmp/bin/pmp-check-mysql-status -l root -p <%= node["percona"]["server_root_password"] %> -x wsrep_local_state -C '!=' -w 4
+command[check_percona_state]=/opt/pmp/bin/pmp-check-mysql-status -l root -p <%= node["percona"]["server_root_password"] %> -x wsrep_local_state -C '!=' -w 4
+command[check_percona_cluster]=/opt/pmp/bin/pmp-check-mysql-status -l root -p <%= node["percona"]["server_root_password"] %> -x wsrep_cluster_size -C '!=' -w 3
 <% end -%>
 
 
