@@ -54,9 +54,8 @@ if server["bind_to"]
     only_if { ipaddr.nil? }
   end
 else
-  # unless otherwise specified, default to admin VIP address
-  admin_vip = node[:haproxy][:admin_ip]
-  node["percona"]["server"]["bind_address"] = admin_vip
+  admin_ip = Chef::Recipe::Barclamp::Inventory.get_network_by_type(node, "admin").address 
+  node["percona"]["server"]["bind_address"] = admin_ip
   node.save
 
   log "Can't find ip address for #{server["bind_to"]}" do

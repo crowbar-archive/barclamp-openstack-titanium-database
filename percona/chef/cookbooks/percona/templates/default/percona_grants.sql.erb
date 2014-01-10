@@ -22,6 +22,5 @@ GRANT RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.* TO '<%= node["percona"]["ba
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('<%= @root_password %>');
 SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('<%= @root_password %>');
 SET PASSWORD FOR 'root'@'::1' = PASSWORD('<%= @root_password %>');
-SET PASSWORD FOR 'root'@'<%= node.hostname %>' = PASSWORD('<%= @root_password %>');
 
 FLUSH PRIVILEGES;
