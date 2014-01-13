@@ -173,6 +173,26 @@ template "/etc/mysql/debian.cnf" do
   only_if { node["platform_family"] == "debian" }
 end
 
+if platform_family?('debian')
+
+  ruby_block "add_mysqlchk_service" do
+    block do
+      file = Chef::Util::FileEdit.new("/etc/services")
+      file.insert_line_if_no_match("mysqlchk", "mysqlchk        9200/tcp          #mysqlchk")
+      file.write_file
+    end
+  end
+
+  package "xinetd" do
+    action :install
+  end
+
+  service "haproxy" do
+    action[:restart]
+  end
+
+end
+
 
 #####################################
 ## CONFIGURE ACCESS FOR SST REPLICATION

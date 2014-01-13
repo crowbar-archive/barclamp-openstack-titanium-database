@@ -8,6 +8,7 @@
   <% end -%>
 <% end -%>
 
+<%= "GRANT PROCESS ON *.* TO 'clustercheckuser'@'localhost' IDENTIFIED BY 'clustercheckpassword!';" %>
 
 <% if node["percona"]["backup"]["configure"] %>
 # Grant permissions for the XtraBackup user
