@@ -54,9 +54,8 @@ if server["bind_to"]
     only_if { ipaddr.nil? }
   end
 else
-  # unless otherwise specified, default to admin VIP address
-  admin_vip = node[:haproxy][:admin_ip]
-  node["percona"]["server"]["bind_address"] = admin_vip
+  admin_ip = Chef::Recipe::Barclamp::Inventory.get_network_by_type(node, "admin").address 
+  node["percona"]["server"]["bind_address"] = admin_ip
   node.save
 
   log "Can't find ip address for #{server["bind_to"]}" do
@@ -172,6 +171,26 @@ template "/etc/mysql/debian.cnf" do
   notifies :restart, "service[mysql]", :immediately if node["percona"]["auto_restart"]
 
   only_if { node["platform_family"] == "debian" }
+end
+
+if platform_family?('debian')
+
+  ruby_block "add_mysqlchk_service" do
+    block do
+      file = Chef::Util::FileEdit.new("/etc/services")
+      file.insert_line_if_no_match("mysqlchk", "mysqlchk        9200/tcp          #mysqlchk")
+      file.write_file
+    end
+  end
+
+  package "xinetd" do
+    action :install
+  end
+
+  service "haproxy" do
+    action[:restart]
+  end
+
 end
 
 

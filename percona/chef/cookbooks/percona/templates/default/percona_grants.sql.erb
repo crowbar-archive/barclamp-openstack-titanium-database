@@ -8,6 +8,7 @@
   <% end -%>
 <% end -%>
 
+<%= "GRANT PROCESS ON *.* TO 'clustercheckuser'@'localhost' IDENTIFIED BY 'clustercheckpassword!';" %>
 
 <% if node["percona"]["backup"]["configure"] %>
 # Grant permissions for the XtraBackup user
@@ -22,6 +23,5 @@ GRANT RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.* TO '<%= node["percona"]["ba
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('<%= @root_password %>');
 SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('<%= @root_password %>');
 SET PASSWORD FOR 'root'@'::1' = PASSWORD('<%= @root_password %>');
-SET PASSWORD FOR 'root'@'<%= node.hostname %>' = PASSWORD('<%= @root_password %>');
 
 FLUSH PRIVILEGES;
