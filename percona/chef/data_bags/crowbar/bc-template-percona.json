@@ -1,9 +1,10 @@
 {
   "id": "bc-template-percona",
-  "description": "provides a percona installation",
+  "description": "OpenStack HA - Percona database cluster",
   "attributes": {
     "percona": {
-      "sql_engine": "percona"
+      "sql_engine": "percona",
+      "haproxy_instance": ""
     }
   },
   "deployment": {
