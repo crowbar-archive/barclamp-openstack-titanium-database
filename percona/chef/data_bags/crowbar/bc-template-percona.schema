@@ -14,6 +14,7 @@
           "mapping": {
             "sql_engine": { "type": "str", "required": true },
             "db_maker_password": { "type": "str" },
+            "haproxy_instance": { "type": "str" },
             "mysql" : {
               "type": "map",
               "required": false,

@@ -21,19 +21,42 @@ class PerconaService < ServiceObject
     @logger = thelogger
   end
 
+  def proposal_dependencies(role)
+    answer = []
+    answer << { "barclamp" => "haproxy", "inst" => role.default_attributes[@bc_name]["haproxy_instance"] }
+    answer
+  end
+  
   def create_proposal
     # TODO: ensure that only one proposal can be applied to a node
     @logger.debug("percona create_proposal: entering")
     base = super
     @logger.debug("percona create_proposal: leaving base part")
 
-    nodes = NodeObject.all
-    nodes.delete_if { |n| not n.admin? }
-    unless nodes.empty?
-      base["deployment"]["percona"]["elements"] = {
-        "percona" => [ nodes.first.name ]
-      }
+    # HAProxy dependency
+    base["attributes"][@bc_name]["haproxy_instance"] = ""
+    begin
+      haproxyService = HaproxyService.new(@logger)
+      haproxys = haproxyService.list_active[1]
+      if haproxys.empty?
+        # No actives, look for proposals
+        haproxys = haproxyService.proposals[1]
+      end
+      base["attributes"][@bc_name]["haproxy_instance"] = haproxys[0] unless haproxys.empty?
+    rescue
+      @logger.info("keystone create_proposal: no haproxy found")
     end
+    if base["attributes"][@bc_name]["haproxy_instance"] == ""
+      raise(I18n.t('model.service.dependency_missing', :name => @bc_name, :dependson => "haproxy"))
+    end
+
+#    nodes = NodeObject.all
+#    nodes.delete_if { |n| not n.admin? }
+#    unless nodes.empty?
+#      base["deployment"]["percona"]["elements"] = {
+#        "percona" => [ nodes.first.name ]
+#      }
+#    end
 
     @logger.debug("percona create_proposal: exiting")
     base
